@@ -202,7 +202,7 @@ export const  pfIndexToPocket = {
     168: "22",
 }
 
-var pfPocketToIndex = {
+export const pfPocketToIndex = {
     "AA": 0,
     "AKs": 1,
     "AQs": 2,
@@ -374,7 +374,7 @@ var pfPocketToIndex = {
     "22": 168,
 }
 
-var pfPocketEquity = {
+export const pfPocketEquity = {
     "AA": 0.852037,
     "AKs": 0.670446,
     "AQs": 0.662089,
