@@ -1,25 +1,10 @@
 
-import React from "react";
+import React, {useEffect} from "react";
 import { pfIndexToPocket } from "../utils/handMappings";
 import Selection from '@simonwep/selection-js'
 import store from '../store'
 
-const selection = Selection.create({ // eslint-disable-line no-unused-vars
-  class: 'selection',
-  selectables: ['.box-wrap > div'],
-  boundaries: ['.box-wrap']
-}).on('move', ({changed: {removed, added}}) => {
-  for (const el of added) {
-      el.classList.add('selected');
-  }
-  for (const el of removed) {
-      el.classList.remove('selected');
-  } 
 
-}).on('stop', ({inst}) => {
-  inst.keepSelection();
-  store.dispatch({type: 'HERO_RANGE', payload: inst.getSelection().map(e => e.innerHTML)})
-})
 
 const Cell = function({ value, index }) {
   return (
@@ -38,6 +23,26 @@ const Cell = function({ value, index }) {
 };
 
 const RangeBuilder = props => {
+  const actionType = props.hero ? 'HERO_RANGE' : "VILLIAN_RANGE"
+  useEffect(() => {
+    const selection = Selection.create({ // eslint-disable-line no-unused-vars
+      class: 'selection',
+      selectables: ['.box-wrap > div'],
+      boundaries: ['.box-wrap']
+    }).on('move', ({changed: {removed, added}}) => {
+      for (const el of added) {
+          el.classList.add('selected');
+      }
+      for (const el of removed) {
+          el.classList.remove('selected');
+      } 
+    
+    }).on('stop', ({inst}) => {
+      inst.keepSelection();
+      store.dispatch({type: actionType, payload: inst.getSelection().map(e => e.innerHTML)})
+    })
+  }, [actionType]);
+
   return (
     <div>
       <section style={{display:"flex", flexWrap: "wrap", width: '390px'}}class="box-wrap boxes green">
