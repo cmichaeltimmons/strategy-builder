@@ -1,16 +1,19 @@
-import { configureStore, createReducer } from '@reduxjs/toolkit'
+import { configureStore, createReducer } from "@reduxjs/toolkit";
 
-const rangeReducer = createReducer({hero:[],villian:[]}, {
+const rangeReducer = createReducer(
+  { hero: [], villian: [] },
+  {
     HERO_RANGE: (state, action) => {
-      state.hero = action.payload
+      state.hero = action.payload;
     },
     VILLIAN_RANGE: (state, action) => {
-        state.villian = action.payload
-    }
-  })
+      state.villian = action.payload;
+    },
+  }
+);
 
 const store = configureStore({
-  reducer: rangeReducer
-})
+  reducer: rangeReducer,
+});
 
-export default store
+export default store;
