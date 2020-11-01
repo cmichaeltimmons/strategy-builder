@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@simonwep/selection-js": "^1.7.1",

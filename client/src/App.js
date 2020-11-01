@@ -1,5 +1,7 @@
 import "./App.css";
 import RangeBuilder from "./components/RangeBuilder";
+import store from "./store";
+import evaluate from "./actions/evaluate";
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
             <RangeBuilder hero={false} />
           </div>
         </div>
+        <button onClick={() => store.dispatch(evaluate())}>Evaluate</button>
       </main>
     </div>
   );
