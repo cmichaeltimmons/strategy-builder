@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const addon = require('bindings')('addon.node')
 
 // Constants
 const PORT = 8080;

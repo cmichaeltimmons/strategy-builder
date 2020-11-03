@@ -1,8 +1,8 @@
 {
   "targets": [
     {
-      "target_name": "hello",
-      "sources": [ "hello.cc" ],
+      "target_name": "addon",
+      "sources": [ "addon.cc" ],
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "/home/michael/training-app/pokerstove/src/lib"
