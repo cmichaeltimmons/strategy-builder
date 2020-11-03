@@ -17,7 +17,7 @@ void GameSimulator(const Nan::FunctionCallbackInfo<v8::Value> &args)
     //convert args to std
     v8::String::Utf8Value heroRange(isolate, args[0]);
     std::string stdHeroRange(*heroRange);
-    v8::String::Utf8Value villianRange(isolate, args[0]);
+    v8::String::Utf8Value villianRange(isolate, args[1]);
     std::string stdVillianRange(*villianRange);
 
     //create a holdem evaluator
