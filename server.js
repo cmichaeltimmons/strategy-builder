@@ -17,10 +17,11 @@ app.use(bodyParser.json());
 
 app.post('/api', (req, res) => {
   const result = addon.runGameSimulations(req.body.hero, req.body.villian)
-  console.log(result)
   const total = result.heroWins+result.villianWins+result.ties+result.ties;
-  console.log(total)
-  console.log((result.heroWins+result.ties)/total)
+  res.json({
+    hero: result.herWins,
+    villian: res.villianWins
+  })
 });
 
 app.listen(PORT, HOST);

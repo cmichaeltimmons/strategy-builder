@@ -1,11 +1,11 @@
 #include <nan.h>
 #include <boost/program_options.hpp>
-#include <pokerstove/penum/ShowdownEnumerator.h>
-#include <pokerstove/peval/CardSet.h>
 #include <vector>
 #include <string>
+#include <EquityCalculator.h>
+#include <iostream>
 using namespace std;
-using namespace pokerstove;
+using namespace omp;
 using namespace Nan;
 using namespace v8;
 
@@ -20,36 +20,32 @@ void GameSimulator(const Nan::FunctionCallbackInfo<v8::Value> &args)
     v8::String::Utf8Value villianRange(isolate, args[1]);
     std::string stdVillianRange(*villianRange);
 
-    //create a holdem evaluator
-    const string game = string("h");
-    boost::shared_ptr<PokerHandEvaluator> evaluator =
-        PokerHandEvaluator::alloc(game);
-
-    //add hands to CardDistribution object: handDists
-    vector<pokerstove::CardDistribution>
-        handDists;
-    handDists.emplace_back();
-    handDists.back().parse(stdHeroRange);
-    handDists.emplace_back();
-    handDists.back().parse(stdVillianRange);
-
-    //run montecarlo simulations
-    ShowdownEnumerator showdown;
-    vector<pokerstove::EquityResult> results =
-        showdown.calculateEquity(handDists, CardSet(""), evaluator);
+    EquityCalculator eq;
+    vector<CardRange> ranges{stdHeroRange, stdVillianRange};
+    uint64_t board = CardRange::getCardMask("");
+    uint64_t dead = CardRange::getCardMask("Jc");
+    double stdErrMargin = 2e-5; // stop when standard error below 0.002%
+    auto callback = [&eq](const EquityCalculator::Results &results) {
+        cout << results.equity[0] << " " << 100 * results.progress
+             << " " << 1e-6 * results.intervalSpeed << endl;
+        if (results.time > 5) // Stop after 5s
+            eq.stop();
+    };
+    double updateInterval = 0.25; // Callback called every 0.25s.
+    unsigned threads = 0;         // max hardware parallelism (default)
+    eq.start(ranges, board, dead, false, stdErrMargin, callback, updateInterval, threads);
+    eq.wait();
+    auto r = eq.getResults();
 
     //covert simulation results to json Object
     v8::Local<v8::Object> jsonObject = Nan::New<v8::Object>();
     v8::Local<v8::String> heroProp = Nan::New("heroWins").ToLocalChecked();
     v8::Local<v8::String> villianProp = Nan::New("villianWins").ToLocalChecked();
     v8::Local<v8::String> tiesProp = Nan::New("ties").ToLocalChecked();
-    v8::Local<v8::Value> heroValue = Nan::New(results[0].winShares);
-    v8::Local<v8::Value> villianValue = Nan::New(results[1].winShares);
-    v8::Local<v8::Value> tiesValue = Nan::New(results[0].tieShares);
+    v8::Local<v8::Value> heroValue = Nan::New(r.equity[0]);
+    v8::Local<v8::Value> villianValue = Nan::New(r.equity[1]);
     Nan::Set(jsonObject, heroProp, heroValue);
     Nan::Set(jsonObject, villianProp, villianValue);
-    Nan::Set(jsonObject, tiesProp, tiesValue);
-
     args.GetReturnValue().Set(jsonObject);
 }
 

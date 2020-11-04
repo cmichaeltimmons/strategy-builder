@@ -5,13 +5,12 @@
       "sources": [ "addon.cc" ],
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
-        "/home/michael/training-app/pokerstove/src/lib"
+        "/home/michael/training-app/OMPEval/omp"
       ],
       "libraries":[
-        "/home/michael/training-app/pokerstove/build/src/lib/pokerstove/penum/libpenum.a",
-        "/home/michael/training-app/pokerstove/build/src/lib/pokerstove/peval/libpeval.a",
+        "/home/michael/training-app/OMPEval/lib/ompeval.a"
       ],
-      'cflags_cc': [ '-fexceptions' ]
+      'cflags_cc': [ '-fexceptions', '-fPIC' ],
     }
   ]
 }
