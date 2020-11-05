@@ -10,6 +10,7 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN git clone https://github.com/cmichaeltimmons/OMPEval  
 # If you are building your code for production
 # RUN npm ci --only=production
 
