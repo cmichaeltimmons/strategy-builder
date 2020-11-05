@@ -41,7 +41,6 @@ void GameSimulator(const Nan::FunctionCallbackInfo<v8::Value> &args)
     v8::Local<v8::Object> jsonObject = Nan::New<v8::Object>();
     v8::Local<v8::String> heroProp = Nan::New("heroWins").ToLocalChecked();
     v8::Local<v8::String> villianProp = Nan::New("villianWins").ToLocalChecked();
-    v8::Local<v8::String> tiesProp = Nan::New("ties").ToLocalChecked();
     v8::Local<v8::Value> heroValue = Nan::New(r.equity[0]);
     v8::Local<v8::Value> villianValue = Nan::New(r.equity[1]);
     Nan::Set(jsonObject, heroProp, heroValue);
