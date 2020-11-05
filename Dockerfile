@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 RUN git clone https://github.com/cmichaeltimmons/OMPEval  
 # If you are building your code for production
@@ -17,9 +17,12 @@ RUN git clone https://github.com/cmichaeltimmons/OMPEval
 # Bundle app source
 COPY . .
 
+# Deploy client
+RUN cd client && npm ci && npm run build
+
 RUN cd /usr/src/app/OMPEval && make all
 RUN apt update && apt-get -y install libboost-all-dev cmake 
-RUN npm install -g node-gyp && node-gyp configure build
+RUN npm install -g --silent node-gyp && node-gyp configure build 
 
 EXPOSE 8080
 CMD [ "node", "server.js" ]

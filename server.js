@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const addon = require('bindings')('addon.node')
+const path = require('path')
 
 // Constants
 const PORT = 8080;
@@ -14,6 +15,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+
+// Serve the client
+app.use(express.static(path.join(__dirname, "./", "client/build")));
+app.use(express.static("client/public"));
 
 app.post('/api', (req, res) => {
   const result = addon.runGameSimulations(req.body.hero, req.body.villian)
