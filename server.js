@@ -24,10 +24,8 @@ app.get('*', (req, res) => {
 
 app.post('/api', (req, res) => {
   const result = addon.runGameSimulations(req.body.hero, req.body.villian)
-  const total = result.heroWins+result.villianWins+result.ties+result.ties;
-  console.log(result)
   res.json({
-    hero: result.herWins,
+    hero: result.heroWins,
     villian: result.villianWins
   })
 });
