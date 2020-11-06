@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 
 // Serve the client
 app.use(express.static(path.join(__dirname, "./", "client/build")));
-app.use(express.static("client/public"));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.post('/api', (req, res) => {
   const result = addon.runGameSimulations(req.body.hero, req.body.villian)
