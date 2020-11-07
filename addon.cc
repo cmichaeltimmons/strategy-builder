@@ -23,14 +23,9 @@ void GameSimulator(const Nan::FunctionCallbackInfo<v8::Value> &args)
     EquityCalculator eq;
     vector<CardRange> ranges{stdHeroRange, stdVillianRange};
     uint64_t board = CardRange::getCardMask("");
-    uint64_t dead = CardRange::getCardMask("Jc");
+    uint64_t dead = CardRange::getCardMask("");
     double stdErrMargin = 2e-5; // stop when standard error below 0.002%
-    auto callback = [&eq](const EquityCalculator::Results &results) {
-        cout << results.equity[0] << " " << 100 * results.progress
-             << " " << 1e-6 * results.intervalSpeed << endl;
-        if (results.time > 5) // Stop after 5s
-            eq.stop();
-    };
+    auto callback = [&eq](const EquityCalculator::Results &results) {};
     double updateInterval = 0.25; // Callback called every 0.25s.
     unsigned threads = 0;         // max hardware parallelism (default)
     eq.start(ranges, board, dead, false, stdErrMargin, callback, updateInterval, threads);
