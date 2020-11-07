@@ -22,7 +22,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-app.post('/api', (req, res) => {
+// run simulations
+app.post('/api/run-simulations', (req, res) => {
   const result = addon.runGameSimulations(req.body.hero, req.body.villian)
   res.json({
     hero: result.heroWins,
