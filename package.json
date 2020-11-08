@@ -12,7 +12,10 @@
     "react-redux": "^7.2.2"
   },
   "scripts": {
-    "test": "node hello.js"
+    "start": "nodemon server.js"
   },
-  "gypfile": true
+  "gypfile": true,
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
