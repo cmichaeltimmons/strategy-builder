@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const addon = require('bindings')('addon.node')
-const path = require('path')
+const path = require('path');
 
 // Constants
 const PORT = process.env.PORT || 8080;
@@ -15,12 +15,17 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+const ranges = require('./models/dbHelpers')
 
-// Serve the client
-app.use(express.static(path.join(__dirname, "./", "client/build")));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+app.post('/api/ranges', (req, res) => {
+  ranges.addRange(req.body)
+  .then(range => {
+    res.status(200).json(range)
+  })
+  .catch(error => {
+    res.status(500).json({message: "cannot add range"})
+  })
+})
 
 // run simulations
 app.post('/api/run-simulations', (req, res) => {
@@ -29,6 +34,12 @@ app.post('/api/run-simulations', (req, res) => {
     hero: result.heroWins,
     villian: result.villianWins
   })
+});
+
+// Serve the client
+app.use(express.static(path.join(__dirname, "./", "client/build")));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
 app.listen(PORT, HOST);
