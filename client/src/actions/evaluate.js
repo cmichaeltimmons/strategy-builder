@@ -4,7 +4,7 @@ export default function evaluate() {
     if (getState().hero.length == 0 || getState().villian.length == 0) {
       return;
     }
-    const response = await fetch("api/", {
+    const response = await fetch("api/run-simulations", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

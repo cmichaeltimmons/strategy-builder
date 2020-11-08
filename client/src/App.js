@@ -2,6 +2,7 @@ import "./App.css";
 import RangeBuilder from "./components/RangeBuilder";
 import store from "./store";
 import evaluate from "./actions/evaluate";
+import saveRange from "./actions/saveRange";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <RangeBuilder hero={true} />
             <h3>Combos: {heroCombos}</h3>
             <h3>Equity: {equities.hero}</h3>
+            <button onClick={() => store.dispatch(saveRange())}>Save</button>
           </div>
           <div>
             <h1 style={{ textAlign: "center" }}>Villian</h1>
