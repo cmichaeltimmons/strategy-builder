@@ -27,6 +27,16 @@ app.post('/api/ranges', (req, res) => {
   })
 })
 
+app.get('/api/ranges', (req, res) => {
+  ranges.getRanges()
+  .then(ranges => {
+    res.status(200).json(ranges)
+  })
+  .catch(error => {
+    res.status(500).json({message: "Unable to retrieve ranges"})
+  })
+})
+
 // run simulations
 app.post('/api/run-simulations', (req, res) => {
   const result = addon.runGameSimulations(req.body.hero, req.body.villian)

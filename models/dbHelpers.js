@@ -5,6 +5,11 @@ async function addRange(range) {
     return id
 }
 
+async function getRanges() {
+    return db("ranges")
+}
+
 module.exports = {
-    addRange
+    addRange,
+    getRanges
 }
