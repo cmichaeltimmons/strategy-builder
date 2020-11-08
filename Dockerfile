@@ -23,6 +23,7 @@ RUN cd client && npm ci && npm run build
 RUN cd /usr/src/app/OMPEval && make all
 RUN apt update && apt-get -y install libboost-all-dev cmake 
 RUN npm install -g --silent node-gyp && node-gyp configure build 
+RUN npm install knex -g
 
 EXPOSE 8080
 CMD [ "node", "server.js" ]
