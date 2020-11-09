@@ -25,5 +25,6 @@ RUN apt update && apt-get -y install libboost-all-dev cmake
 RUN npm install -g --silent node-gyp && node-gyp configure build 
 RUN npm install knex -g
 
+EXPOSE 5432
 EXPOSE 8080
 CMD [ "node", "server.js" ]
